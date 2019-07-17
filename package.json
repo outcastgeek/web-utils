@@ -1,0 +1,11 @@
+{
+  "name": "web-utils",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "shadow-cljs": "2.8.40"
+  },
+    "dependencies": {
+        "express": "4.17.1"
+  }
+}
