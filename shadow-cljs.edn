@@ -5,10 +5,20 @@
   "src/test"]
 
  :dependencies
- []
+ [[cljs-http "0.1.46"]
+  [org.clojure/core.match "0.3.0"]
+  [reagent "0.8.1" :exclusions [cljsjs/react cljsjs/react-dom]]
+  [reagent-forms "0.5.43"]
+  [re-frame "0.10.5"]
+  [secretary "1.2.3"]
+  [com.rpl/specter "1.1.2"]]
 
  :builds
  {:app
   {:main core/main
-  :target :node-script
-  :output-to "app.js"}}}
+   :target :node-script
+   :output-to "app.js"
+   :compiler-options {:optimizations :advanced
+                      :infer-externs :all
+                      :output-feature-set :es7
+                      :fn-invoke-direct true}}}}

@@ -1,5 +1,5 @@
 (ns express.sugar
-  "Ligweight interface to requirejs."
+  "Lightweight interface to requirejs."
   (:refer-clojure :exclude [set get])
   (:require [cljs.nodejs :as nodejs]))
 
