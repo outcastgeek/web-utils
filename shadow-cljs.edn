@@ -18,7 +18,7 @@
   {:main core/main
    :target :node-script
    :output-to "app.js"
-   :compiler-options {:optimizations :advanced
+   :compiler-options {:optimizations :simple
                       :infer-externs :all
                       :output-feature-set :es7
                       :fn-invoke-direct true}}}}
