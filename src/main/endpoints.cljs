@@ -8,8 +8,6 @@
             [express.sugar :as ex]
             [ui.templates :as tmpl]))
 
-(nodejs/enable-util-print!)
-
 (defn handle-response [response grab-data-fn]
   (let [status (:status response)]
     (prn "Status: " status)
@@ -38,7 +36,7 @@
       (ex/status 200)
       (ex/send (tmpl/render
                 [:raw
-                 {:title "Bonjour!!"
+                 {:title "Bonjour!! :-)"
                   :content (tmpl/raw-str-widget-ui {:text "Hello world!!!"})
                   }]))
       ))
@@ -86,7 +84,7 @@
             city-query (aget params "city")]
         (println (str "City Query: " city-query))
         (alt!
-          (http/get (str "http://api.openweathermap.org/data/2.5/weather?q=" city-query "&appid=2de143494c0b295cca9337e1e96b00e0"))
+          (http/get (str "http://api.openweathermap.org/data/2.5/weather?q=" city-query "&appid=b6907d289e10d714a6e88b30761fae22"))
           ([raw-resp]
            (let [grab-data-fn (fn [resp]
                                 (let [city (-> resp :body :name)

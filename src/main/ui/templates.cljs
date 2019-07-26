@@ -3,8 +3,6 @@
             [reagent.core :as r]
             [reagent.dom.server :as rs]))
 
-(enable-console-print!)
-
 (defn default-template-ui [data]
   (let [{:keys [content script title]} data]
     [:html {:lang "en"}

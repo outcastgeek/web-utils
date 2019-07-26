@@ -7,6 +7,8 @@
 
 (nodejs/enable-util-print!)
 
+(set! js/XMLHttpRequest (nodejs/require "xhr2"))
+
 (def routes
   (ex/routes
    [:get "/" ep/say-hello!]
@@ -20,7 +22,7 @@
 
 (defn main []
   (let [staticFolder (if-let [STATIC (os/env "STATIC")] STATIC "static")
-        portNumber (if-let [PORT (os/env "PORT")] PORT 3333)]
+        portNumber (if-let [PORT (os/env "PORT")] PORT 8080)]
     (println "Static Folder: " staticFolder)
     (println "Port Number: " portNumber)
     (-> (ex/app)
