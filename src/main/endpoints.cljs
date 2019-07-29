@@ -26,7 +26,7 @@
                 [:default
                  {:title "SS Reacting"
                   :content [tmpl/hello-ui {:upper-bound 8}]
-                  :script "/js/base.js"
+                  :script "/js/main.js"
                   }]))
       ))
 
