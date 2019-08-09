@@ -1,27 +1,9 @@
 (ns express.sugar
   "Lightweight interface to requirejs."
   (:refer-clojure :exclude [set get])
-  (:require [cljs.nodejs :as nodejs]))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Constants
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defonce ^{:doc "Global express import."
-           :private true}
-  express (nodejs/require "express"))
-
-(defonce ^{:doc "Global logger import."
-           :private true}
-  logger (nodejs/require "morgan"))
-
-;(defonce ^{:doc "File System import."
-;           :private true}
-;  fs (js/require "fs"))
-
-(defonce ^{:doc "Serve static files"
-           :private true}
-  serve-static (nodejs/require "serve-static"))
+  (:require [cljs.nodejs :as nodejs]
+            ["express" :as express]
+            ["serve-static" :as serve-static]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Constructors

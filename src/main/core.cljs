@@ -1,9 +1,9 @@
 (ns core
   (:require [cljs.nodejs :as nodejs]
+            ["morgan" :as logger]
             [util.os :as os]
             [express.sugar :as ex]
-            [endpoints :as ep]
-            ))
+            [endpoints :as ep]))
 
 (nodejs/enable-util-print!)
 
@@ -28,10 +28,9 @@
     (-> (ex/app)
         (ex/static staticFolder)
         ;;(ex/static (if-let [STATIC (os/env "STATIC")] STATIC "static") "/public")
-        (ex/use (ex/logger "combined")) ; Logger
+        (ex/use (logger "combined")) ; Logger
         (ex/use "/" routes)
         (ex/listen portNumber))
     ))
 
 (set! *main-cli-fn* main)
-

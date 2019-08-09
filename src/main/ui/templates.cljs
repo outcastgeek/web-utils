@@ -21,7 +21,8 @@
         [:h1 "CLJS Express"]]
        [:div {:class "row"}
         [:div {:id "app"
-               :class "col-lg-12"} content]]]
+               :class "col-lg-12"} "JS Loading..."]
+        [:div {:class "col-lg-12"} content]]]
       [:script {:type "text/javascript" :src "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}]
       [:script {:type "text/javascript" :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}]
       [:script {:type "text/javascript" :src script}]
@@ -46,7 +47,8 @@
         [:h1 "RAW CLJS Express"]]
        [:div {:class "row"}
         [:div {:id "app"
-               :class "col-lg-12"} content]]]
+               :class "col-lg-12"} "JS Loading..."]
+        [:div {:class "col-lg-12"} content]]]
       [:script {:type "text/javascript" :src "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}]
       [:script {:type "text/javascript" :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}]
       [:script {:type "text/javascript" :src script}]
