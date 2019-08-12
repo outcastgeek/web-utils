@@ -1,7 +1,4 @@
-(ns ui.templates
-  (:require [cljs.core.match :refer-macros [match]]
-            [reagent.core :as r]
-            [reagent.dom.server :as rs]))
+(ns ui.templates)
 
 (defn default-template-ui [data]
   (let [{:keys [content script title]} data]
@@ -54,26 +51,6 @@
       [:script {:type "text/javascript" :src script}]
       ]]
     ))
-
-;;;;;;;;;;;;;;; Rendering
-
-(defn- render-to-str [widget]
-  (rs/render-to-string widget))
-
-(defn render
-  [resp]
-  (match resp
-         [:default data]
-         (str
-          "<!DOCTYPE html>"
-          (render-to-str [default-template-ui data])
-          )
-         [:raw data]
-         (str
-          "<!DOCTYPE html>"
-          (render-to-str [raw-template-ui data])
-          )
-         [_ data] data))
 
 ;;;;;;;;;;;;;;;;;;;;;; Widgets
 

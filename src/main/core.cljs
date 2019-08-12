@@ -18,6 +18,7 @@
    [:get "/_ah/start" ep/app-start]
    [:get "/_ah/health" ep/check-health]
    [:get "/_ah/stop" ep/app-stop]
+   [:get "/_ah/stop" ep/app-stop]
    [:all "/foo" ep/say-hello!]))
 
 (defn main []
@@ -28,8 +29,8 @@
     (-> (ex/app)
         (ex/static staticFolder)
         ;;(ex/static (if-let [STATIC (os/env "STATIC")] STATIC "static") "/public")
-        (ex/use (logger "combined")) ; Logger
-        (ex/use "/" routes)
+        (ex/with-middleware (logger "combined")) ; Logger
+        (ex/with-middleware "/" routes)
         (ex/listen portNumber))
     ))
 

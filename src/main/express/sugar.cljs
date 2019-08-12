@@ -1,6 +1,6 @@
 (ns express.sugar
   "Lightweight interface to requirejs."
-  (:refer-clojure :exclude [set get])
+  ;;(:refer-clojure :exclude [set get])
   (:require [cljs.nodejs :as nodejs]
             ["express" :as express]
             ["serve-static" :as serve-static]))
@@ -47,11 +47,15 @@
   [res code]
   (.status res code))
 
+(defn headers
+  [res headers]
+  (.set res headers))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helpers
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn use
+(defn with-middleware
   "Attach middlware to express app."
   ([app handler]
    (.use app handler))
@@ -65,14 +69,14 @@
   ([app port callback]
    (.listen app port "0.0.0.0" callback)))
 
-(defn set
-  [app key value]
-  (.set app key value)
-  app)
+;; (defn set
+;;   [app key value]
+;;   (.set app key value)
+;;   app)
 
-(defn get
-  [app key]
-  (.get app key))
+;; (defn get
+;;   [app key]
+;;   (.get app key))
 
 (defn enable
   [app key]
@@ -102,6 +106,6 @@
   [app path]
   (let [webdir (str js/__dirname "/" path)]
     (println "WEBDIR:" webdir)
-    (use app (serve-static webdir (clj->js {:index false})))
+    (with-middleware app (serve-static webdir (clj->js {:index false})))
     ))
 

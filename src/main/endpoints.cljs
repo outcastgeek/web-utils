@@ -5,7 +5,7 @@
             [com.rpl.specter :as s]
             [cljs.nodejs :as nodejs]
             [util.os :as os]
-            [express.sugar :as ex]
+            [express.web-api :as web]
             [ui.templates :as tmpl]))
 
 (defn handle-response [response grab-data-fn]
@@ -21,24 +21,20 @@
 (defn render-widget
   [req res]
   (-> res
-      (ex/status 200)
-      (ex/send (tmpl/render
-                [:default
-                 {:title "SS Reacting"
-                  :content [tmpl/hello-ui {:upper-bound 8}]
-                  :script "/js/main.js"
-                  }]))
+      (web/respond :html [tmpl/default-template-ui
+                          {:title "SS Reacting"
+                           :content [tmpl/hello-ui {:upper-bound 8}]
+                           :script "/js/main.js"
+                           }])
       ))
 
 (defn say-hello!
   [req res]
   (-> res
-      (ex/status 200)
-      (ex/send (tmpl/render
-                [:raw
-                 {:title "Bonjour!! :-)"
-                  :content (tmpl/raw-str-widget-ui {:text "Hello world!!!"})
-                  }]))
+      (web/respond :html [tmpl/raw-template-ui
+                          {:title "Bonjour!! :-)"
+                           :content [tmpl/raw-str-widget-ui {:text "Hello world!!!"}]
+                           }])
       ))
 
 (defn check-github-users
@@ -57,22 +53,18 @@
                       (map :login (:body resp))))]
          (prn "Names: " names)
          (-> res
-             (ex/status 200)
-             (ex/send (tmpl/render
-                       [:default
-                        {:title "Github Users"
-                         :content [tmpl/raw-str-widget-ui
-                                   {:text (clojure.string/join "," names)}]
-                         }]))
+             (web/respond :html [tmpl/default-template-ui
+                                 {:title "Github Users"
+                                  :content [tmpl/raw-str-widget-ui
+                                            {:text (clojure.string/join "," names)}]
+                                  }])
              )))
       (timeout 1000)
       (-> res
-          (ex/status 200)
-          (ex/send (tmpl/render
-                    [:default
-                     {:title "Github Users"
-                      :content "Could not Fetch the Github Users!"
-                      }])))
+          (web/respond :html [tmpl/default-template-ui
+                              {:title "Github Users"
+                               :content "Could not Fetch the Github Users!"
+                               }]))
       )))
 
 (defn check-weather
@@ -95,47 +87,36 @@
                  weather-info (-> raw-resp (js->clj) (handle-response grab-data-fn))]
              (prn weather-info)
              (-> res
-                 (ex/status 200)
-                 (ex/send (tmpl/render
-                           [:default
-                            {:title "Weather"
-                             :content [tmpl/raw-str-widget-ui
-                                       {:text (clojure.string/join "," weather-info)}]
-                             }])))
+                 (web/respond :html [tmpl/default-template-ui
+                                     {:title "Weather"
+                                      :content [tmpl/raw-str-widget-ui
+                                                {:text (clojure.string/join "," weather-info)}]
+                                      }]))
              ))
           (timeout 1000)
           (-> res
-              (ex/status 200)
-              (ex/send (tmpl/render
-                        [:default
-                         {:title "Weather"
-                          :content "Could not Fetch the Weather Info."
-                          }])))
+              (web/respond :html [tmpl/default-template-ui
+                                  {:title "Weather"
+                                   :content "Could not Fetch the Weather Info."
+                                   }]))
           ))
       ))
+
+;; PingPong
+(defn pong
+  [req res]
+  (web/respond res "pong"))
 
 ;; Application LifeCycle
 (defn app-start
   [req res]
-  (-> res
-      (ex/status 200)
-      (ex/send (tmpl/render
-                [:none "Started"]))
-      ))
+  (web/respond res "Started"))
 
 (defn check-health
   [req res]
-  (-> res
-      (ex/status 200)
-      (ex/send (tmpl/render
-                [:none "Healthy!"]))
-      ))
+  (web/respond res "Healthy!"))
 
 (defn app-stop
   [req res]
-  (-> res
-      (ex/status 200)
-      (ex/send (tmpl/render
-                [:none "Stopping..."]))
-      ))
+  (web/respond res "Stopping..."))
 

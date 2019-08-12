@@ -3,6 +3,7 @@ src
 /target
 /checkouts
 /src/gen
+/static/js/cljs-runtime
 
 pom.xml
 pom.xml.asc
