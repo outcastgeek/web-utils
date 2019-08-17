@@ -3,6 +3,7 @@
             ["morgan" :as logger]
             [util.os :as os]
             [express.sugar :as ex]
+            [express.web-api :as web]
             [endpoints :as ep]))
 
 (nodejs/enable-util-print!)
@@ -10,16 +11,24 @@
 (set! js/XMLHttpRequest (nodejs/require "xhr2"))
 
 (def routes
-  (ex/routes
-   [:get "/" ep/say-hello!]
-   [:get "/react" ep/render-widget]
-   [:get "/weather/:city" ep/check-weather]
-   [:get "/github-users" ep/check-github-users]
-   [:get "/_ah/start" ep/app-start]
-   [:get "/_ah/health" ep/check-health]
-   [:get "/_ah/stop" ep/app-stop]
-   [:get "/_ah/stop" ep/app-stop]
-   [:all "/foo" ep/say-hello!]))
+  (web/routes
+   ["/"
+    {"" {:get
+         {"" ep/say-hello!}}
+     "react" {:get
+              {"" ep/render-widget}}
+     ["weather/" :city] {:get
+                         {"" ep/check-weather}}
+     "github-users" {:get
+                     {"" ep/check-github-users}}
+     "_ah/start" {:get
+                  {"" ep/app-start}}
+     "_ah/health" {:get
+                   {"" ep/check-health}}
+     "_ah/stop" {:get
+                 {"" ep/app-stop}}
+     "foo" ep/say-hello!}
+    ]))
 
 (defn main []
   (let [staticFolder (if-let [STATIC (os/env "STATIC")] STATIC "static")

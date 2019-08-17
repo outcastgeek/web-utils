@@ -2,6 +2,8 @@
   "Lightweight interface to requirejs."
   ;;(:refer-clojure :exclude [set get])
   (:require [cljs.nodejs :as nodejs]
+            [clojure.string :refer [lower-case]]
+            [clojure.walk :refer [keywordize-keys]]
             ["express" :as express]
             ["serve-static" :as serve-static]))
 
@@ -47,9 +49,38 @@
   [res code]
   (.status res code))
 
-(defn headers
+(defn set-headers
   [res headers]
   (.set res headers))
+
+(defn get-headers
+  [req]
+  (let [headers (-> (.-headers req) (js->clj :keywordize-keys true))]
+    ;;(println "Request Headers: " headers)
+    headers))
+
+(defn path
+  [req]
+  (let [path (.-url req)]
+    path))
+
+(defn full-url
+  [req]
+  (let [protocol (.-protocol req)
+        host (.get req "host")
+        ;;port (.. req -app -settings -port)
+        raw-path (.-url req)
+        path (path req)]
+    ;;(println "URL Parts: " protocol " + " host " + " port " + " url)
+    (str
+     protocol "://" host path)))
+
+(defn method
+  [req]
+  (let [m (.-method req)]
+    (-> m
+        lower-case
+        keyword)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helpers

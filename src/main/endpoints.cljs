@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [alt! go]])
   (:require [cljs-http.client :as http]
             [cljs.core.async :as async :refer [<! put! chan close! timeout]]
+            [clojure.pprint :refer [pprint]]
             [com.rpl.specter :as s]
             [cljs.nodejs :as nodejs]
             [util.os :as os]
@@ -19,26 +20,22 @@
       500 ["Something Broke"])))
 
 (defn render-widget
-  [req res]
-  (-> res
-      (web/respond :html [tmpl/default-template-ui
-                          {:title "SS Reacting"
-                           :content [tmpl/hello-ui {:upper-bound 8}]
-                           :script "/js/main.js"
-                           }])
-      ))
+  [req]
+  (web/send :html [tmpl/default-template-ui
+                   {:title "SS Reacting"
+                    :content [tmpl/hello-ui {:upper-bound 8}]
+                    :script "/js/main.js"
+                    }]))
 
 (defn say-hello!
-  [req res]
-  (-> res
-      (web/respond :html [tmpl/raw-template-ui
-                          {:title "Bonjour!! :-)"
-                           :content [tmpl/raw-str-widget-ui {:text "Hello world!!!"}]
-                           }])
-      ))
+  [req]
+  (web/send :html [tmpl/raw-template-ui
+                   {:title "Bonjour!! :-)"
+                    :content [tmpl/raw-str-widget-ui {:text "Hello world!!!"}]
+                    }]))
 
 (defn check-github-users
-  [req res]
+  [req]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Fetch, Parse, Render, or Timeout  ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -52,28 +49,27 @@
                     (fn [resp]
                       (map :login (:body resp))))]
          (prn "Names: " names)
-         (-> res
-             (web/respond :html [tmpl/default-template-ui
-                                 {:title "Github Users"
-                                  :content [tmpl/raw-str-widget-ui
-                                            {:text (clojure.string/join "," names)}]
-                                  }])
-             )))
+         (web/send :html [tmpl/default-template-ui
+                          {:title "Github Users"
+                           :content [tmpl/raw-str-widget-ui
+                                     {:text (clojure.string/join "," names)}]
+                           }])))
       (timeout 1000)
-      (-> res
-          (web/respond :html [tmpl/default-template-ui
-                              {:title "Github Users"
-                               :content "Could not Fetch the Github Users!"
-                               }]))
+      (web/send :html [tmpl/default-template-ui
+                       {:title "Github Users"
+                        :content "Could not Fetch the Github Users!"
+                        }])
       )))
 
 (defn check-weather
-  [req res]
+  [req]
+  (println "Request: " (-> req pprint with-out-str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Fetch, Parse, Render, or Timeout  ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (go (let [params (aget req "params")
-            city-query (aget params "city")]
+  (go (let [;;params (aget req "params")
+            ;;city-query (aget params "city")
+            city-query (-> req :route-params :city)]
         (println (str "City Query: " city-query))
         (alt!
           (http/get (str "http://api.openweathermap.org/data/2.5/weather?q=" city-query "&appid=b6907d289e10d714a6e88b30761fae22"))
@@ -86,37 +82,35 @@
                                   [city country description temperature]))
                  weather-info (-> raw-resp (js->clj) (handle-response grab-data-fn))]
              (prn weather-info)
-             (-> res
-                 (web/respond :html [tmpl/default-template-ui
-                                     {:title "Weather"
-                                      :content [tmpl/raw-str-widget-ui
-                                                {:text (clojure.string/join "," weather-info)}]
-                                      }]))
+             (web/send :html [tmpl/default-template-ui
+                              {:title "Weather"
+                               :content [tmpl/raw-str-widget-ui
+                                         {:text (clojure.string/join "," weather-info)}]
+                               }])
              ))
           (timeout 1000)
-          (-> res
-              (web/respond :html [tmpl/default-template-ui
-                                  {:title "Weather"
-                                   :content "Could not Fetch the Weather Info."
-                                   }]))
+          (web/send :html [tmpl/default-template-ui
+                           {:title "Weather"
+                            :content "Could not Fetch the Weather Info."
+                            }])
           ))
       ))
 
 ;; PingPong
 (defn pong
-  [req res]
-  (web/respond res "pong"))
+  [req]
+  (web/send "pong"))
 
 ;; Application LifeCycle
 (defn app-start
-  [req res]
-  (web/respond res "Started"))
+  [req]
+  (web/send "Started"))
 
 (defn check-health
-  [req res]
-  (web/respond res "Healthy!"))
+  [req]
+  (web/send "Healthy!"))
 
 (defn app-stop
-  [req res]
-  (web/respond res "Stopping..."))
+  [req]
+  (web/send "Stopping..."))
 
