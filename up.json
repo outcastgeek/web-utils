@@ -1,7 +1,7 @@
 {
     "name": "web-utils",
     "lambda": {
-        "memory": 1536,
+        "memory": 128,
         "warm": true,
         "warm_count": 10,
         "warm_rate": "30m",

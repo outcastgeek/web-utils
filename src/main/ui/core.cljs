@@ -5,7 +5,7 @@
 (enable-console-print!)
 
 (defn start []
-  (r/render-component 
+  (r/render-component
    [tmpl/hello-ui {:upper-bound 8}]
    (.getElementById js/document "app")))
 
