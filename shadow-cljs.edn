@@ -15,6 +15,7 @@
   [re-frame "0.10.5"]
   [secretary "1.2.3"]
   [com.rpl/specter "1.1.2"]
+  [com.taoensso/timbre "4.10.0"]
   [cider/cider-nrepl "0.22.0-beta11"]]
 
  :builds

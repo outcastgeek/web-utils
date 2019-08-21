@@ -3,6 +3,7 @@
   (:require [cljs-http.client :as http]
             [cljs.core.async :as async :refer [<! put! chan close! timeout]]
             [clojure.pprint :refer [pprint]]
+            [taoensso.timbre :as log]
             [com.rpl.specter :as s]
             [cljs.nodejs :as nodejs]
             [util.os :as os]
@@ -63,14 +64,14 @@
 
 (defn check-weather
   [req]
-  (println "Request: " (-> req pprint with-out-str))
+  (log/debug "Request: " (-> req pprint with-out-str))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Fetch, Parse, Render, or Timeout  ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (go (let [;;params (aget req "params")
             ;;city-query (aget params "city")
             city-query (-> req :route-params :city)]
-        (println (str "City Query: " city-query))
+        (log/debug (str "City Query: " city-query))
         (alt!
           (http/get (str "http://api.openweathermap.org/data/2.5/weather?q=" city-query "&appid=b6907d289e10d714a6e88b30761fae22"))
           ([raw-resp]

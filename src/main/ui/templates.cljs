@@ -1,4 +1,5 @@
-(ns ui.templates)
+(ns ui.templates
+  (:require [taoensso.timbre :as log]))
 
 (defn default-template-ui [data]
   (let [{:keys [content script title]} data]
@@ -157,7 +158,7 @@
 ;;;;;;;;;;;;;;;;;;;;;; Widgets
 
 (defn raw-str-widget-ui [data]
-  (println "Raw Stringing...")
+  (log/debug "Raw Stringing...")
   (let [{:keys [text]} data]
     ;;[:div text]
     [:div {:class "columns is-mobile is-centered"}
@@ -198,7 +199,7 @@
     ))
 
 (defn un-bouton-ui [data]
-  (println "Buttoning ...")
+  (log/debug "Buttoning ...")
   (let [{:keys [text]} data]
     [:div
      [:hr]
@@ -210,7 +211,7 @@
 
 
 (defn hello-ui [data]
-  (println "Rendering ...")
+  (log/debug "Rendering ...")
   (let [{:keys [upper-bound]} data]
     [:div "Hello world!"
      [:ul (for [n (range 1 upper-bound)]

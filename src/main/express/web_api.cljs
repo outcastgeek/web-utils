@@ -3,6 +3,7 @@
   (:require [cljs.core.async :as async :refer [<!]]
             [cljs.core.match :refer-macros [match]]
             [clojure.pprint :refer [pprint]]
+            [taoensso.timbre :as log]
             [reagent.dom.server :as rs]
             [express.sugar :as ex]
             [bidi.bidi :as bidi]
@@ -57,14 +58,14 @@
 (defn- respond
     [res data]
     (let [{status :status headers :headers body :body} data]
-        (println "Response Data: " (-> data pprint with-out-str))
+        ;;(log/debug "Response Data: " (-> data pprint with-out-str))
         (-> res
             (ex/status status)
             (ex/set-headers (clj->js headers))
             (ex/send body))))
 
 (defn match-route [rts path method]
-  (println "Matching: " path " and " method)
+  (log/debug "Matching: " path " and " method)
   (let [match-data (or
                     (bidi/match-route*
                      rts
@@ -76,7 +77,7 @@
                      :handler (fn [req]
                                 (send "Not Found"))
                      })]
-    (println "Matched Route Data: " (-> match-data pprint with-out-str))
+    (log/debug "Matched Route Data: " (-> match-data pprint with-out-str))
     match-data))
 
 (defn- route-dispatcher [rts req res]
@@ -100,10 +101,10 @@
     (if (channel? data)
         (go
             (let [response-data (<! data)]
-                (println "Response Data: " (-> response-data pprint with-out-str))
+                ;;(log/debug "Response Data: " (-> response-data pprint with-out-str))
                 (respond res response-data)))
         (do
-            (println "Response Data: " (-> data pprint with-out-str))
+            ;;(log/debug "Response Data: " (-> data pprint with-out-str))
             (respond res data))
         )))
 
@@ -113,7 +114,7 @@
 
 (defn routes[rts]
   (ex/routes [:all "*" (fn [req res]
-                         ;;(println "Route Definitions: " (-> rts pprint with-out-str))
+                         ;;(log/debug "Route Definitions: " (-> rts pprint with-out-str))
                          (route-dispatcher rts req res))]))
 
 (def path-for bidi/path-for)

@@ -1,5 +1,6 @@
 (ns core
   (:require [cljs.nodejs :as nodejs]
+            [taoensso.timbre :as log]
             ["morgan" :as logger]
             [util.os :as os]
             [express.sugar :as ex]
@@ -33,8 +34,8 @@
 (defn main []
   (let [staticFolder (if-let [STATIC (os/env "STATIC")] STATIC "static")
         portNumber (if-let [PORT (os/env "PORT")] PORT 8080)]
-    (println "Static Folder: " staticFolder)
-    (println "Port Number: " portNumber)
+    (log/debug "Static Folder: " staticFolder)
+    (log/debug "Port Number: " portNumber)
     (-> (ex/app)
         (ex/static staticFolder)
         ;;(ex/static (if-let [STATIC (os/env "STATIC")] STATIC "static") "/public")

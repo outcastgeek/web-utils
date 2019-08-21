@@ -4,6 +4,7 @@
   (:require [cljs.nodejs :as nodejs]
             [clojure.string :refer [lower-case]]
             [clojure.walk :refer [keywordize-keys]]
+            [taoensso.timbre :as log]
             ["express" :as express]
             ["serve-static" :as serve-static]))
 
@@ -56,7 +57,7 @@
 (defn get-headers
   [req]
   (let [headers (-> (.-headers req) (js->clj :keywordize-keys true))]
-    ;;(println "Request Headers: " headers)
+    ;;(log/debug "Request Headers: " headers)
     headers))
 
 (defn path
@@ -71,7 +72,7 @@
         ;;port (.. req -app -settings -port)
         raw-path (.-url req)
         path (path req)]
-    ;;(println "URL Parts: " protocol " + " host " + " port " + " url)
+    ;;(log/debug "URL Parts: " protocol " + " host " + " port " + " url)
     (str
      protocol "://" host path)))
 
@@ -136,7 +137,7 @@
 (defn static
   [app path]
   (let [webdir (str js/__dirname "/" path)]
-    (println "WEBDIR:" webdir)
+    (log/debug "WEBDIR:" webdir)
     (with-middleware app (serve-static webdir (clj->js {:index false})))
     ))
 
