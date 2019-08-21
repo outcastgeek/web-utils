@@ -13,5 +13,5 @@ release:
 	npx shadow-cljs release app web
 
 deploy: deps release
-	gcloud app deploy
+	gcloud app deploy -v 1
 
