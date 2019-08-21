@@ -26,7 +26,7 @@
         [:div {:class "hero-body"}
         [:div {:class "container"}
           [:h1 {:class "title"}
-          "Home"]
+          "LispyPOC"]
           [:h2 {:class "subtitle"}
           "CljsExpress App"]
           ]]
@@ -102,7 +102,7 @@
         [:div {:class "hero-body"}
         [:div {:class "container"}
           [:h1 {:class "title"}
-          "Home"]
+          "LispyPOC"]
           [:h2 {:class "subtitle"}
           "CljsExpress App"]
           ]]
@@ -167,7 +167,7 @@
           [:article {:class "media"}
             [:div {:class "media-left"}
               [:figure {:class "image is-64x64"}
-                [:img {:src "//via.placeholder.com/128/D9534F/000000?text=CljExpress"
+               [:img {:src "//via.placeholder.com/128/4BBF73/000000?text=CljExpress"
                       :alt "CljExpress"}]
               ]]
             [:div {:class "media-content"}
