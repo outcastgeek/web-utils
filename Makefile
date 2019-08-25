@@ -12,6 +12,5 @@ compile:
 release:
 	npx shadow-cljs release app web
 
-deploy: deps release
+deploy:
 	gcloud app deploy -v 1
-
