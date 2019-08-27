@@ -1,5 +1,6 @@
 (ns ui.templates
-  (:require [taoensso.timbre :as log]))
+  (:require [taoensso.timbre :as log]
+            [express.web-api :refer [path-for]]))
 
 (defn default-template-ui [data]
   (let [{:keys [content script title]} data]
@@ -44,14 +45,14 @@
         [:div {:class "navbar-item"}
           [:div {:class "field is-grouped"}
           [:p {:class "control"}
-            [:a {:class "button is-primary", :href "/react"}
+           [:a {:class "button is-primary", :href (path-for :react)}
             [:span {:class "icon"}
               [:i {:class "fas fa-list-alt"}]
               ]
             [:span "React"]
             ]]
           [:p {:class "control"}
-            [:a {:class "button is-primary", :href "/github-users"}
+            [:a {:class "button is-primary", :href (path-for :ghusers)}
             [:span {:class "icon"}
               [:i {:class "fas fa-plus-square"}]
               ]
@@ -120,14 +121,14 @@
         [:div {:class "navbar-item"}
           [:div {:class "field is-grouped"}
           [:p {:class "control"}
-            [:a {:class "button is-primary", :href "/react"}
+           [:a {:class "button is-primary", :href (path-for :react)}
             [:span {:class "icon"}
               [:i {:class "fas fa-list-alt"}]
               ]
             [:span "React"]
             ]]
           [:p {:class "control"}
-            [:a {:class "button is-primary", :href "/github-users"}
+            [:a {:class "button is-primary", :href (path-for :ghusers)}
             [:span {:class "icon"}
               [:i {:class "fas fa-plus-square"}]
               ]

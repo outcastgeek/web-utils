@@ -80,7 +80,7 @@
     (log/debug "Matched Route Data: " (-> match-data pprint with-out-str))
     match-data))
 
-(defn- route-dispatcher [rts req res]
+(defn- route-dispatcher [rts handler-fn req res]
   (let [headers (ex/get-headers req)
         path (ex/path req)
         full-url (ex/full-url req)
@@ -89,15 +89,16 @@
         {route-params :route-params
          query-params :query-params
          request-method :request-method
-         endpoint-fn :handler} match-data
-        data (endpoint-fn
-              {:headers headers
-               :route-params route-params
-               :query-params query-params
-               :path path
-               :full-url full-url
-               :request-method request-method
-               :raw-req req})]
+         key-handler :handler} match-data
+        data (handler-fn
+              {:endpoint key-handler
+               :req {:headers headers
+                            :route-params route-params
+                            :query-params query-params
+                            :path path
+                            :full-url full-url
+                            :request-method request-method
+                            :raw-req req}})]
     (if (channel? data)
         (go
             (let [response-data (<! data)]
@@ -108,16 +109,22 @@
             (respond res data))
         )))
 
+(def cached-routes (atom []))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; API
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn routes[rts]
+(defn routes[rts handler-fn]
+  (reset! cached-routes rts)
   (ex/routes [:all "*" (fn [req res]
                          ;;(log/debug "Route Definitions: " (-> rts pprint with-out-str))
-                         (route-dispatcher rts req res))]))
+                         (route-dispatcher rts handler-fn req res))]))
 
-(def path-for bidi/path-for)
+(defn path-for [key-handler]
+  (let [rts @cached-routes
+        path (or (bidi/path-for rts key-handler) "#link_to_nowhere")]
+    path))
 
 (defn send
   [& data]

@@ -5,31 +5,46 @@
             [util.os :as os]
             [express.sugar :as ex]
             [express.web-api :as web]
-            [endpoints :as ep]))
+            [endpoints :as ep]
+            [routing :refer [routing-data]]))
 
 (nodejs/enable-util-print!)
 
 (set! js/XMLHttpRequest (nodejs/require "xhr2"))
 
+(defmulti handle (fn [req-data] (:endpoint req-data)))
+
+(defmethod handle :home [req-data]
+  (ep/say-hello! (:req req-data)))
+
+(defmethod handle :react [req-data]
+  (ep/render-widget (:req req-data)))
+
+(defmethod handle :weather [req-data]
+  (ep/check-weather (:req req-data)))
+
+(defmethod handle :ghusers [req-data]
+  (ep/check-github-users (:req req-data)))
+
+(defmethod handle :start [req-data]
+  (ep/app-start (:req req-data)))
+
+(defmethod handle :health [req-data]
+  (ep/check-health (:req req-data)))
+
+(defmethod handle :stop [req-data]
+  (ep/app-stop (:req req-data)))
+
+(defmethod handle :foo [req-data]
+  (ep/say-hello! (:req req-data)))
+
+(defmethod handle :default [_]
+  (web/send "Not Found"))
+
 (def routes
   (web/routes
-   ["/"
-    {"" {:get
-         {"" ep/say-hello!}}
-     "react" {:get
-              {"" ep/render-widget}}
-     ["weather/" :city] {:get
-                         {"" ep/check-weather}}
-     "github-users" {:get
-                     {"" ep/check-github-users}}
-     "_ah/start" {:get
-                  {"" ep/app-start}}
-     "_ah/health" {:get
-                   {"" ep/check-health}}
-     "_ah/stop" {:get
-                 {"" ep/app-stop}}
-     "foo" ep/say-hello!}
-    ]))
+   routing-data
+   handle))
 
 (defn main []
   (let [staticFolder (if-let [STATIC (os/env "STATIC")] STATIC "static")
