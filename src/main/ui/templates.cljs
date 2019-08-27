@@ -16,9 +16,11 @@
       [:link {:rel "dns-prefetch" :href "//code.getmdl.io"}]
       [:link {:rel "dns-prefetch" :href "//code.jquery.com"}]
       [:link {:rel "dns-prefetch" :href "//maxcdn.bootstrapcdn.com"}]
+      [:link {:rel "dns-prefetch" :href "//unpkg.com"}]
+      [:link {:rel "dns-prefetch" :href "//use.fontawesome.com"}]
 
-      ;;[:link {:rel "stylesheet", :href "https://unpkg.com/bulmaswatch/default/bulmaswatch.min.css"}]
-      [:link {:rel "stylesheet", :href "https://unpkg.com/bulmaswatch/lux/bulmaswatch.min.css"}]
+      ;;[:link {:rel "stylesheet", :href "//unpkg.com/bulmaswatch/default/bulmaswatch.min.css"}]
+      [:link {:rel "stylesheet", :href "//unpkg.com/bulmaswatch/lux/bulmaswatch.min.css"}]
 
       ;;[:link {:rel "stylesheet" :href "/css/sample.css"}]
       ]
@@ -92,9 +94,11 @@
       [:link {:rel "dns-prefetch" :href "//code.getmdl.io"}]
       [:link {:rel "dns-prefetch" :href "//code.jquery.com"}]
       [:link {:rel "dns-prefetch" :href "//maxcdn.bootstrapcdn.com"}]
+      [:link {:rel "dns-prefetch" :href "//unpkg.com"}]
+      [:link {:rel "dns-prefetch" :href "//use.fontawesome.com"}]
 
-      ;;[:link {:rel "stylesheet", :href "https://unpkg.com/bulmaswatch/default/bulmaswatch.min.css"}]
-      [:link {:rel "stylesheet", :href "https://unpkg.com/bulmaswatch/lux/bulmaswatch.min.css"}]
+      ;;[:link {:rel "stylesheet", :href "//unpkg.com/bulmaswatch/default/bulmaswatch.min.css"}]
+      [:link {:rel "stylesheet", :href "//unpkg.com/bulmaswatch/lux/bulmaswatch.min.css"}]
 
       ;;[:link {:rel "stylesheet" :href "/css/sample.css"}]
       ]
