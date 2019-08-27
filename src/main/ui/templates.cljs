@@ -71,7 +71,7 @@
       [:footer {:class "footer"}
        [:div {:class "container"}
         [:div {:class "content has-text-centered"}
-         [:p "Copyright &copy 2019 OUCASTGEEK INC. All rights reserved."]
+         [:p "Copyright &copy; 2019 OUCASTGEEK INC. All rights reserved."]
          ]]]
       [:script {:defer "defer", :src "//use.fontawesome.com/releases/v5.0.2/js/all.js"}]
       [:script {:type "text/javascript" :src script}]
@@ -149,7 +149,7 @@
       [:footer {:class "footer"}
        [:div {:class "container"}
         [:div {:class "content has-text-centered"}
-         [:p "Copyright &copy 2019 OUCASTGEEK INC. All rights reserved."]
+         [:p "Copyright &copy; 2019 OUCASTGEEK INC. All rights reserved."]
          ]]]
       [:script {:defer "defer", :src "//use.fontawesome.com/releases/v5.0.2/js/all.js"}]
       [:script {:type "text/javascript" :src script}]
