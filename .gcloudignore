@@ -16,6 +16,7 @@ pom.xml.asc
 .idea
 .lein-*
 .nrepl-*
+.cpcache
 .DS_Store
 
 .hgignore

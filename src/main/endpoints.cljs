@@ -6,7 +6,6 @@
             [taoensso.timbre :as log]
             [com.rpl.specter :as s]
             [cljs.nodejs :as nodejs]
-            [util.os :as os]
             [express.web-api :as web]
             [ui.templates :as tmpl]))
 

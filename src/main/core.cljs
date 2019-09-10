@@ -1,8 +1,7 @@
 (ns core
-  (:require-macros [util.macros :as m])
+  (:require-macros [utils.macros :as m])
   (:require [cljs.nodejs :as nodejs]
             [taoensso.timbre :as log]
-            ;;[util.os :as os]
             [express.sugar :as ex]
             [express.web-api :as web]
             [endpoints :as ep]
